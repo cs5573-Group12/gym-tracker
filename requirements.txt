@@ -1,0 +1,5 @@
+Django
+gunicorn
+psycopg2
+Pillow
+django-bootstrap-v5

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+<div class="container">
+  {% block page %}
+    <div container="container-fluid" style="min-height: 5vh;">
+      {% include "header.html" %}
+    </div>
+    <div class="container-fluid" style="min-height: 95vh;min-width: 90vw;">
+        {% block content %}{% endblock %}
+      {% comment %} <div class="row">
+        {% include "footer.html" %}
+      </div> {% endcomment %}
+    </div>
+  {% endblock %}
+</div>

@@ -1,0 +1,40 @@
+{% extends 'page.html' %}
+
+{% block content %}
+{% if guests_count != 0 %}
+  <h2>Guests</h2>
+  <table class="table table-striped">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Phone Number</th>
+              <th>Email</th>
+              <th>Age</th>
+              <th>Gender</th>
+              <th>Date</th>
+              <th>Price</th>
+              <th>Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for guest in guests %}
+          <tr>
+              <td>{{ guest.name }}</td>
+              <td>{{ guest.phone }}</td>
+              <td>{{ guest.email }}</td>
+              <td>{{ guest.age }}</td>
+              <td>{{ guest.gender }}</td>
+              <td>{{ guest.date }}</td>
+              <td>{{ guest.price }}</td>
+              <td>
+                  <a href="{% url 'edit_guest' guest_id=guest.id %}">Edit</a>
+                  <a href="{% url 'delete_guest' guest_id=guest.id %}">Delete</a>
+              </td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+{% else %}
+  <p>There are no guests yet.</p>
+{% endif %}
+{% endblock %}
