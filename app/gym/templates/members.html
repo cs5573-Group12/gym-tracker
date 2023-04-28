@@ -1,0 +1,44 @@
+{% extends 'page.html' %}
+
+{% block content %}
+{% if members_count != 0 %}
+  <h2>Members</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Plan</th>
+                <th>Join Date</th>
+                <th>Expire Date</th>
+                <th>Initial Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in members %}
+            <tr>
+                <td>{{ member.name }}</td>
+                <td>{{ member.phone }}</td>
+                <td>{{ member.email }}</td>
+                <td>{{ member.age }}</td>
+                <td>{{ member.gender }}</td>
+                <td>{{ member.plan }}</td>
+                <td>{{ member.joindate }}</td>
+                <td>{{ member.expiredate }}</td>
+                <td>{{ member.initialamount }}</td>
+                <td>
+                    <a href="{% url 'edit_member' member_id=member.id %}">Edit</a>
+                    <a href="{% url 'delete_member' member_id=member.id %}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+  <p>There are no gym members yet.</p>
+{% endif %}
+{% endblock %}
