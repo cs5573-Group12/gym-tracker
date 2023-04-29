@@ -8,7 +8,7 @@ from members.models import Member
 # Create your views here.
 def members(request):
     view_all_members = Member.objects.all().order_by('name')
-
+    # print(view_all_members[0].registered_by)
     context = {
         'url': request.get_full_path(),
         'members': view_all_members,
@@ -21,6 +21,7 @@ def add_member(request):
         form = MemberForm(request.POST)
         if form.is_valid():
             newMember = form.save(commit=False)
+            newMember.registered_by = request.user
             newMember.save()
             return redirect('members')
     else:
@@ -65,6 +66,7 @@ def member_check_in(request):
         form = MemberEntryForm(request.POST)
         if form.is_valid():
             newMemberEntry = form.save(commit=False)
+            newMemberEntry.checked_in_by = request.user
             newMemberEntry.save()
             return redirect('members')
     else:

@@ -3,7 +3,7 @@
 {% block title %}{% endblock %}
 
 {% block content %}
-  <div class="container-fluid">
+  <div class="container-fluid ">
     <div class="container">
       <h1 class="display-4 text-center">Welcome to the Gym</h1>
       
@@ -56,14 +56,16 @@
             <tr>
                 <th>Name</th>
                 <th>Type</th>
+                <th>Checked in by</th>
                 <th>Date</th>
             </tr>
         </thead>
         <tbody>
-            {% for entry in total_entries_today %}
+            {% for entry in total_entries %}
             <tr>
                 <td>{{ entry.name }}</td>
                 <td>{{ entry.type }}</td>
+                <td>{{ entry.checked_in_by }}</td>
                 <td>{{ entry.date }}</td>
             </tr>
             {% endfor %}

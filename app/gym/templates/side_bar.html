@@ -1,4 +1,4 @@
-<div class="d-flex align-items-start mt-5">
+<div class="d-flex align-items-start mt-5 ">
   <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
     <button class="nav-link {% if url == '/' %} active {% endif %}" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
       <a class="nav-link {% if url == '/' %} active text-white {% else %} text-black {% endif %}}" href="{% url 'index' %}">
@@ -22,12 +22,17 @@
     </button>
     <button class="nav-link {% if url == '/employees/' %} active {% endif %}" id="v-pills-employees-tab" data-bs-toggle="pill" data-bs-target="#v-pills-employees" type="button" role="tab" aria-controls="v-pills-employees" aria-selected="false">
       <a class="nav-link {% if url == '/employees/' %} active text-white {% else %} text-black {% endif %}}" href="{% url 'employees' %}">
-        Employees {{ boo }}
+        Employees
       </a>
     </button>
-    <button class="nav-link {% if url == '/settings/' %} active {% endif %}" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">
-      <a class="nav-link {% if url == '/settings/' %} text-white {% else %} text-black {% endif %}}" href="{% url 'settings' %}">
-        Settings
+    <button class="nav-link {% if url == '/about/' %} active {% endif %}" id="v-pills-employees-tab" data-bs-toggle="pill" data-bs-target="#v-pills-employees" type="button" role="tab" aria-controls="v-pills-employees" aria-selected="false">
+      <a class="nav-link {% if url == '/about/' %} active text-white {% else %} text-black {% endif %}}" href="{% url 'about' %}">
+        About
+      </a>
+    </button>
+    <button class="nav-link {% if url == '/contact/' %} active {% endif %}" id="v-pills-employees-tab" data-bs-toggle="pill" data-bs-target="#v-pills-employees" type="button" role="tab" aria-controls="v-pills-employees" aria-selected="false">
+      <a class="nav-link {% if url == '/contact/' %} active text-white {% else %} text-black {% endif %}}" href="{% url 'contact' %}">
+        Contact
       </a>
     </button>
   </div>

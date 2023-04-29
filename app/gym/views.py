@@ -1,49 +1,67 @@
+from django.utils import timezone
 from datetime import datetime
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import Http404, HttpResponse
 
-from gym.forms import EmployeeForm, GuestForm
-from gym.models import Employee, Guest
+from gym.forms import EmployeeForm
+from gym.models import Employee
 
+from guests.models import Guest
+from members.models import Member, MemberEntry
 # from app.members.models import MemberEntry
 
+from app.settings import TIME_ZONE
 # Create your views here.
 def index(request):
     """
     Show landing page
     """
     # Get initial data
-    # today = datetime.now().strftime("%Y-%m-%d")
-    # print("right now: ", datetime.now())
-    # member_entries_today = MemberEntry.objects.filter(date=today)
-    # # print("first mem entry:", member_entries_today.first().date)
-    # member_entries = member_entries_today.count()
-    # guest_entries_today = Guest.objects.filter(date=today)
-    # guest_entries = guest_entries_today.count()
+
+    # Get the current timezone
+    current_timezone = timezone.get_current_timezone()
+    print("Current timezone:", current_timezone)
+
+    print("settings.TIME_ZONE: ", TIME_ZONE)
+    today = datetime.now().date()
+    aware_today = timezone.make_aware(datetime.combine(today, datetime.min.time()), timezone.get_current_timezone())
+    print("right now: ", aware_today)
     
+    
+    total_entries_today = []
+    member_entries_today, guest_entries_today = [], []
 
-    total_entries_today, member_entries_today, guest_entries_today = [], [], []
-    # for entry in member_entries_today:
-    #     normalized_entry = {
-    #         "name": entry.member.name,
-    #         "type": "member",
-    #         "date": entry.date.strftime("%Y-%m-%d")
-    #     }
-    #     total_entries_today.append(normalized_entry)
+    member_entries_today = MemberEntry.objects.filter(date__date=aware_today.date())
+    
+    guest_entries_today = Guest.objects.filter(date__date=aware_today.date())
+    
+    print("guest_entries_today:", guest_entries_today)
 
-    # for entry in guest_entries_today:
-    #     normalized_entry = {
-    #         "name": entry.name,
-    #         "type": "guest",
-    #         "date": entry.date.strftime("%Y-%m-%d")
-    #     }
-    #     total_entries_today.append(normalized_entry)
+    # 
+    for entry in member_entries_today:
+        print("entry: ", entry.date.isoformat())
+        normalized_entry = {
+            "name": entry.member.name,
+            "type": "member",
+            "checked_in_by": entry.checked_in_by.username,
+            "date": entry.date.time()
+        }
+        total_entries_today.append(normalized_entry)
+
+    for entry in guest_entries_today:
+        normalized_entry = {
+            "name": entry.name,
+            "type": "guest",
+            "checked_in_by": entry.checked_in_by.username,
+            "date": entry.date.time()
+        }
+        total_entries_today.append(normalized_entry)
 
     context = {
         'url': request.get_full_path(),
         "member_entries": member_entries_today, 
         "guest_entries": guest_entries_today,
-        "total_entries_today": total_entries_today
+        "total_entries": total_entries_today
     }
     return render(request, "index.html", context)
 
@@ -90,47 +108,6 @@ def delete_employee(request, employee_id):
     employee.delete()
     return redirect('employees')
 
-def guests(request):
-    view_all_guests = Guest.objects.all().order_by('date')
-
-    context = {
-        'url': request.get_full_path(),
-        'guests': view_all_guests,
-        'guests_count': view_all_guests.count()
-    }
-    return render(request, 'guests.html', context)
-
-def add_guest(request):
-    if request.method == 'POST':
-        form = GuestForm(request.POST)
-        if form.is_valid():
-            newGuest = form.save(commit=False)
-
-            newGuest.save()
-            return redirect('guests')
-    else:
-        form = GuestForm()
-    return render(request, 'add_guest.html', {'form': form})
-
-def edit_guest(request, guest_id):
-    try:  
-      guest = get_object_or_404(Guest, id=guest_id)
-    except Http404:
-      return redirect('guests')
-    
-    if request.method == 'POST':
-        form = GuestForm(request.POST, instance=guest)
-        if form.is_valid():
-            form.save()
-            return redirect('guests')
-    else:
-        form = GuestForm(instance=guest)
-    return render(request, 'edit_guests.html', {'form': form})
-
-def delete_guest(request, guest_id):
-    guest = Guest.objects.get(id=guest_id)
-    guest.delete()
-    return redirect('guests')
 
 def transactions(request):
     context = {
@@ -143,3 +120,15 @@ def settings(request):
         'url': request.get_full_path(), 
     }
     return render(request, 'settings.html', context)
+
+def contact(request):
+    context = {
+        'url': request.get_full_path(), 
+    }
+    return render(request, 'contact.html', context)
+
+def about(request):
+    context = {
+        'url': request.get_full_path(), 
+    }
+    return render(request, 'about.html', context)
