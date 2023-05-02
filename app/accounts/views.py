@@ -60,4 +60,4 @@ def profile(request):
 
 class ChangePasswordView(PasswordChangeView):
     template_name = 'change_password.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('index')
