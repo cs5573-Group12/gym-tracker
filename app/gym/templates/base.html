@@ -4,16 +4,22 @@
   <head>
     <title>{% block title %}{% endblock %}</title>
     {% load bootstrap5 %}
+    {% load static %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <link rel="stylesheet" href="{% static 'gym/style.css' %}" />
+    <!--Chart js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   </head>
   <body>
     <div class="whole-page" style="min-height: 100vh; min-width:100vw;">
       <div class="container-fluid">
         <div class="row">
           <div class="col-1" style="min-height: 100vh;">
-            {% include "navbar.html" %}
+            {% include "side_bar.html" %}
             </div>
           <div class="col-11">
             {% block page %}{% endblock %}

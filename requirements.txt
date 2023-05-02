@@ -3,3 +3,4 @@ gunicorn
 psycopg2
 Pillow
 django-bootstrap-v5
+ipdb

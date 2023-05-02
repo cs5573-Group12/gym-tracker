@@ -1,7 +1,8 @@
+
 secretGenerator:
   - name: db-password
     literals:
-      - password=supersecurepasswordhere
+      - password=supersecretpasswordhere
   - name: django
     literals:
       - secret=secretkey123
