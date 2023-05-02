@@ -4,8 +4,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from .models import Profile
-from .forms import RegisterForm, LoginForm, ProfileForm
+from .forms import RegisterForm, LoginForm, ProfileForm, UserForm
 from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.models import User
 
 # Create your views here.
 def register(request):
@@ -45,15 +46,15 @@ def logout(request):
 
 @login_required
 def profile(request):
-    profile = Profile.objects.get(user=request.user)
-
+    # profile = Profile.objects.get(user=request.user)
+    user = User.objects.get(id=request.user.id)
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        form = UserForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
             return redirect('profile')
     else:
-        form = ProfileForm(instance=profile)
+        form = UserForm(instance=user)
 
     return render(request, 'profile.html', {'form': form})
 

@@ -1,6 +1,6 @@
 {% extends "page.html" %}
 
-{% block title %}{% endblock %}
+{% block title %}Gym Dashboard{% endblock %}
 
 {% block content %}
   <div class="container-fluid ">
@@ -40,16 +40,62 @@
 
     <div class="container mt-2">
       <p class="lead text-center">Please select an option below</p>
-      <a class="btn btn-primary" href="{% url 'member_check_in' %}">
-        Member Check In
-      </a>
-      <a class="btn btn-primary" href="{% url 'add_guest' %}">
-        New Guest Check In
-      </a>
-      <a class="btn btn-primary" href="{% url 'add_member' %}">
-        New Member
-      </a>
+      <div class="row">
+        <div class="col-6">
+          <a class="btn btn-primary" href="{% url 'add_member' %}">
+            New Member
+          </a>
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+          <a class="btn btn-primary" href="{% url 'member_check_in' %}">
+            Member Check In
+          </a>
+          <a class="btn btn-primary ms-2" href="{% url 'add_guest' %}">
+            New Guest Check In
+          </a>
+        </div>
+      </div>
     </div>
+
+    {% block chart %}
+      <div id="container" style="width: 100%;">
+        <canvas id="pie-chart"></canvas>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+      <script>
+        var getData = {{ data1|safe }};
+        console.log("getData", getData);
+        var newDataSets = getData.map((data) => {
+          return {
+            data: data.total,
+            label: data.label};
+        })
+        
+        console.log("newDataSets", newDataSets);
+        var config = {
+          type: 'line',
+          data: {
+            datasets: [{
+              data: newDataSets.map((data) => data.data),
+              label: "Total ",
+            }],
+            labels: {{ labels|safe }}
+          },
+          options: {
+            responsive: true
+          }
+        };
+
+        window.onload = function() {
+          var ctx = document.getElementById('pie-chart').getContext('2d');
+          window.myPie = new Chart(ctx, config);
+        };
+
+      </script>
+
+    {% endblock %}
+
     <h2>Today's Entries</h2>
     <table class="table table-striped">
         <thead>

@@ -2,11 +2,33 @@
 
 {% block content %}
 {% if employees_count != 0 %}
-  <ul class="list-group">
-    {% for employee in employees %}
-      <li class="list-group-item">{{ employee.name }}</li>
-    {% endfor %}
-  </ul>
+  <h2>Employees</h2>
+  <table class="table table-striped">
+      <thead>
+          <tr>
+              <th>Username</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Last Login</th>
+              <th>Date Joined</th>
+              <th>Admin</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for employee in employees %}
+          <tr>
+              <td>{{ employee.username }}</td>
+              <td>{% if employee.first_name %} {{ employee.first_name }} {% else %} - {% endif %}</td>
+              <td>{% if employee.last_name %} {{ employee.last_name }} {% else %} - {% endif %}</td>
+              <td>{{ employee.email }}</td>
+              <td>{{ employee.last_login }}</td>
+              <td>{{ employee.date_joined }}</td>
+              <td>{% if employee.is_superuser %} <i class="fas fa-check"></i> {% else %} - {% endif %}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
 {% else %}
   <p>There are no employees</p>
 {% endif %}

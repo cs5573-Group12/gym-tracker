@@ -1,4 +1,4 @@
-FROM python:3.11.2-alpine3.17
+FROM python:3.10-slim
 
 ENV PYTHONUNBUFFERED 1
 
@@ -11,13 +11,12 @@ RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     /py/bin/pip install -r /requirements.txt
 
-COPY ./scripts /scripts
-RUN chmod -R +x /scripts
-
 ENV PATH="/scripts:/py/bin:$PATH"
 
 COPY ./app /app
+RUN chmod -R +x /app
+
 WORKDIR /app
 EXPOSE 80
 
-CMD ["/scripts/run.sh"]
+CMD ["/run_start.sh"]

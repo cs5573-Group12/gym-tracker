@@ -33,7 +33,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: django
-  labels: 
+  labels:
     app: django
 spec:
   selector:
@@ -53,9 +53,13 @@ spec:
           persistentVolumeClaim:
             claimName: django-app-pvc
       containers:
+
         - image: django-app:latest
           imagePullPolicy: Never
           name: app
+          ports:
+            - containerPort: 8080
+              name: app
           volumeMounts:
             - name: django-app-data
               mountPath: /vol/web

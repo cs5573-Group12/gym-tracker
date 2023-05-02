@@ -2,10 +2,7 @@
 
 {% block content %}
   <h2>{{ user.username }}'s Profile</h2>
-  <img src="{{ profile.profile_pic.url }}" alt="Profile Picture">
   <p>{{ profile.bio }}</p>
-
-  <h3>Edit Profile</h3>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
